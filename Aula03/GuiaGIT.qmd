@@ -1,0 +1,45 @@
+# Introdução ao GIT
+
+Git é uma ferramenta para versionamento de código. Permite versionar códigos através de uma estrutura simples e objetiva. 
+
+Pode ser configurado na IDE para que não sejam necessários o uso de comandos.
+
+## Referências
+
+[Livro ProGit](https://git-scm.com/book/en/v2)
+
+[Documentação Git](https://git-scm.com/docs)
+
+## Principais comandos
+
+### git init \<dir\>
+
+Inicializa um repositório. Um repositório corresponde a um repositório local ou remoto e terá as alterações realizadas documentadas em um log.
+
+### git add \<dir\>
+
+Adiciona as alterações de arquivos e diretórios no log de controle. 
+
+### git commit -m "mensagem"
+
+Salva as alterações e permite que o resultado possa ser enviado.
+
+### git clone
+
+Copia o repositório remoto para um diretório local
+
+### git status
+
+Retorna o status do repositório atual.
+
+### git checkout
+
+Atualiza a estrutura previamente construída. Pode ser utilizado para criar novos branches.
+
+### git pull
+
+Busca as alterações do repositório remoto e as combina com as informações do repositório local (em algum sentido tem os mesmos efeitos de utilizar *git fetch e git merge*)
+
+### git push
+
+Sob certas condições atualiza o repositório remoto.
