@@ -1,0 +1,155 @@
+# Ciências de dados reprodutível
+
+Um dos grandes desafios para equipes em ciências de dados é a colaboração, dado o ecosistema pouco maturo para o versionamento de dados a responsabilidade sobre a reprodutibilidade dos processos recai sobre o versionamento do código e da utilização coerente das dependências. É comum, dada a natureza da linguagem R, que versões distintas de pacotes apresentem 'breaking changes'. Por mais que a comunidade preze por compatibilidade retroativa, nem é sempre é possível preservá-la.
+
+## Instalar e utilizar pacotes
+
+Conforme visto, não é possível que façamos todas as construções necessárias para resolver um determinado problema. Desta maneira podemos nos beneficiar de pacotes existentes e acelerar a obtenção de resultados. Mais detalhes sobre pacotes e como a linguagem R opera pode ser encontrado no manual na seção de pacotes
+[Packages](https://cran.r-project.org/doc/manuals/r-release/R-admin.html#Add_002don-packages)
+
+### install.packages
+
+A diretira 'install.packages' permite ao usuário instalar um pacote junto a instalação do R. É importante notar que, a instalação direta pode nem sempre ser possível, e dadas algumas limitações pode ficar disponível apenas para o usuário vigente do sistema operacional. A instalação 'global' não é favorável a reprodutibilidade.
+
+```R
+install.packages("nome_pacote")
+```
+
+A instalação pode ser feita via script ou também via console interativo.
+
+
+### library
+
+Importa uma biblioteca previamente instalada. Retorna uma mensagem de erro caso a biblioteca não esteja instalada. Além disto, interrompe a execução do código.
+
+```r
+library("nome_pacote")
+```
+
+### require
+
+Importa uma biblioteca previamente instalada. Retorna verdadeiro caso a biblioteca esteja instalada. Não interrompe a execução do código.
+
+```r
+require("nome_pacote")
+```
+
+Por não interromper a execução, o 'require' pode ser utilizado para instalação condicional dos pacotes.
+
+```r
+if (!require("nome_pacote")) {
+  install.packages("nome_pacote")
+}
+```
+
+## Sugestão
+
+Se muitos pacotes forem importados, pode ser relevante criar um arquivo apartado com os imports necessários para um determinado script. Por exemplo:
+
+```r
+if (!require("here")) {
+  install.packages("here")
+}
+
+if (!require("tidyverse")) {
+  install.packages(("tidyverse"))
+}
+
+if (!require("xlsx")) {
+  install.packages("xlsx")
+}
+
+if (!require("lintr")) {
+  install.packages("lintr")
+}
+
+if (!require("styler")) {
+  install.packages("styler")
+}
+```
+
+## Reaproveitar código
+
+Quando um projeto se torna extenso, podemos nos deparar com a necessidade de dividir os arquivos para facilitar a sua leitura/manutenção.
+Nestas condições, podemos 'importar' o arquivo necessário através do uso de:
+
+```r
+source("setup.R")
+```
+
+Da mesma maneira que podemos reaproveitar o código para as dependências, podemos também utilizar o arquivos separados para registrarmos constantes ou configurações para o nosso projeto. Exemplo:
+
+```r
+# Opções de visualização
+options(digits=15)
+
+# Definições de datas para a modelagem
+datas_referencia_des <- c()
+datas_referencia_oot <- c()
+datas_referencia_ttd <- c()
+
+# Definições de segmentos  para a modelagem
+segmentos <- c()
+segmentos_elegiveis <- c()
+
+# Diretórios de dados
+raw_data <- here("data", "raw")
+staging_data <- here("data", "staging")
+prod_data <- here("data", "prod")
+reports_data <- here("data", "reports")
+```
+
+### Pacote 'here'
+
+Por vezes, os caminhos para os arquivos podem se tornar extensos e complexos. Para simplicar o acesso a estes caminhos o pacote 'here' pode ser um grande aliado.
+
+```r
+source(here("src", "config/setup.R"))
+```
+
+Iremos elaborar mais sobre o uso deste pacote e sobre a construção de projetos em linguagem R. Para mais informações sobre o pacote consulte o repositório oficial da biblioteca [Here](https://github.com/r-lib/here/)
+
+## REnv
+
+O pacote 'renv' permite reduzir os desafios enfretados no versionamentos das dependências de um projeto. Ao criar uma estrutura que vincula os pacotes ao projeto e permitir que esta estrutura seja posteriormente restaurada, problemas oriundos da troca de computadores ou sistemas operacionais são amenizados. Também assegura as versões necessárias para a execução do projeto e previne conflitos com pacotes vinculados a intalação do R.
+
+Comandos renv
+```r
+# Inicializa um projeto
+renv::init()
+
+# Gera um snapshot
+renv::snapshot()
+
+# Restaura as dependências a partir de um arquivo renv.lock
+renv::restore()
+
+```
+
+## Estruturando um projeto de dados
+
+```
+RaizProjeto
+|____ data
+     |____ raw
+     |____ staging
+     |____ prod
+|____ doc
+     | requisitos.txt
+     | metricas.txt
+|____ renv
+|____ src
+     |____ config
+     |____ constantes
+     |____ imports
+     | script01.r
+     | script02.r
+|____ tests
+     | test_script01.r
+     | test_script02.r
+| readme.md
+| renv.lock
+| .Rprofile
+
+    
+```

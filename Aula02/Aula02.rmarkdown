@@ -1,0 +1,285 @@
+---
+title: "Aula02"
+author: "StepWise Academy"
+format: html
+editor: visual
+---
+
+
+### **Tipos**
+
+Quantidades são representadas na linguagem R a partir de tipos 'primitivos'. Mais detalhes podem ser conferidos em [R Manual](https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf "R Manual").
+
+#### **Numérico**
+
+Variáveis da classe numérica podem conter valores especiais.
+
+
+```{r}
+qtd_real <- 400
+qtd_real_com_decimais <- 400.5
+
+qtd_real_especial <- NaN
+qtd_real_especial2 <- NULL
+qtd_real_especial3 <- Inf
+
+qtd_real + qtd_real_com_decimais
+qtd_real_com_decimais - qtd_real
+
+qtd_real + qtd_real_especial
+qtd_real + qtd_real_especial2
+qtd_real + qtd_real_especial3
+
+0/0
+Inf + (-Inf)
+Inf^2
+
+
+qtd_real2 <- 400
+qtd_real3 <- 15
+
+qtd_real2 / qtd_real3
+qtd_real2 %/% qtd_real3
+```
+
+
+#### **Inteiro**
+
+Valores inteiros por especificação não permitem *valores especiais* como *NaN, Null ou Inf.*
+
+
+```{r}
+qtd_inteira <- 400L
+qtd_real <- 400
+is.integer(qtd_real)
+qtd_inteira_partindo_real <- as.integer(qtd_real)
+is.integer(qtd_inteira_partindo_real)
+
+as.integer(NaN)
+as.integer(Inf)
+```
+
+
+#### **Lógico**
+
+
+```{r}
+valor_verdadeiro <- T
+valor_verdadeiro_1 <- TRUE
+
+valor_falso <- F
+
+exemplo_coercao_operacao <- valor_verdadeiro + valor_falso
+print(exemplo_coercao_operacao)
+
+valor_verdadeiro & valor_falso
+valor_verdadeiro | valor_falso
+
+exemplo_coercao_operacao2 <- max(valor_verdadeiro)
+```
+
+
+#### **Complexo**
+
+
+```{r}
+valor_complexo <- 2 + 3i
+valor_complexo2 <- 3 - 4i
+
+valor_complexo + valor_complexo2
+valor_complexo / valor_complexo2
+valor_complexo ^ 2
+```
+
+
+#### Caracteres
+
+Tipo texto.
+
+
+```{r}
+valor_texto <- " Algum texto com â ã é"
+
+print(valor_texto)
+Encoding(valor_texto)
+
+Encoding(valor_texto) <- "latin1"
+print(valor_texto)
+
+Encoding(valor_texto) <- "UTF-8"
+print(valor_texto)
+
+
+```
+
+```{r}
+valor_data <- "2023-01-23"
+```
+
+
+##### Referências
+
+-   [Pacote Lubridate](https://lubridate.tidyverse.org/ "Pacote Lubridate") para tratamento de Datas.
+
+
+    ```{r}
+    install.packages("lubridate", repos = "http://cran.us.r-project.org")
+
+    library(lubridate)
+
+    ymd(valor_data) == ymd(20230123)
+    ```
+
+
+#### **Coleções**
+
+##### Vetores
+
+Vetores são coleções homogenêas de dados. Caso seja possível, o R efetuará a conversão para o maior tipo presente na declaração.
+
+
+```{r}
+exemplo_coercao_tipos <- c(10, 4.5, "teste")
+
+exemplo_coercao_tipos2 <- c(10L, 4, 1L)
+typeof(exemplo_coercao_tipos2)
+
+exemplo_coercao_tipos3 <- c(T, 4.5, c(1, 2), "teste")
+typeof(exemplo_coercao_tipos3)
+print(exemplo_coercao_tipos3)
+
+x <- c(0, 0, 1)
+y <- c(0, 1, 0)
+z <- c(1, 0, 0)
+
+# Aritimética Vetorial
+y + z
+3*x + 2*y - 4*z
+
+# Slicing
+
+x[1:2]
+x[x > 0]
+
+x[x == 0] <- 1
+x
+
+# Funções importantes
+length(x)
+x + y + z
+sum(x + y + z)
+```
+
+
+##### **Listas**
+
+Listas são coleções heterogêneas 'nomeadas'. Listas são coleções ordenadas e podemos acessar seus componentes utilizando '\$' ou utilizando \[\[nome_componente\]\].
+
+
+```{r}
+lista_exemplo <- list(pessoa1="Fred", pessoa2="Velma", criancas=3, idades=c(4,7,9))
+
+lista_exemplo2 <- list(pessoa3="Fred2", pessoa4="Mary4", criancas=5, idades=c(4,7,9,11,12))
+
+lista_exemplo$pessoa1
+lista_exemplo$idades[2]
+lista_exemplo$pessoa3
+
+lista_exemplo$pessoa1 == lista_exemplo[["pessoa1"]]
+
+lista_resultante <- c(lista_exemplo, lista_exemplo2)
+
+print(lista_resultante$pessoa1)
+print(lista_resultante$pessoa3)
+```
+
+
+##### Array
+
+Um vetor não nulo pode ser tratado como um array se possuir o atributo dimensão definido. Um array conta com uma indexação
+
+
+```{r}
+array_exemplo <- array(1:20, dim=c(4,5))
+print(array_exemplo)
+
+vetor_para_array <- c(1:20)
+dim(vetor_para_array) <- c(4,5)
+print(vetor_para_array)
+
+vetor_para_array[1:2, 1:3]
+
+vetor_para_array + array_exemplo
+t(vetor_para_array)
+
+
+array_exemplo2 <- array(1:20, dim=c(5,5))
+eigen(array_exemplo2)$values
+
+```
+
+
+### Estruturas de controle
+
+
+```{r}
+if (valor_verdadeiro | valor_falso) {
+  print("A")
+} else {
+  print("B")
+}
+
+if (valor_verdadeiro & valor_falso) {
+  print("A")
+} else {
+  print("B")
+}
+```
+
+
+### Estruturas de repetição
+
+
+```{r}
+for (i in 1:10) {
+  print(i)
+}
+
+i <- 0
+while(i < 10) {
+  print(i)
+  i <- i + 1
+  if (i %% 7 == 0) {
+    print(i^2)
+    break
+  }
+}
+```
+
+```{r}
+while(TRUE) {
+  
+}
+```
+
+
+### Funções
+
+
+```{r}
+FiltraVetor <- function(z, corte = NA) {
+  if (is.na(corte)) {
+    return(z[z > 90])
+  }
+  return(z[z > corte])
+}
+
+c <- 1:100
+
+print(FiltraVetor(c, 20))
+print(FiltraVetor(c, 10))
+print(FiltraVetor(c))
+
+
+```
+
