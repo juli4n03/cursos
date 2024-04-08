@@ -24,7 +24,7 @@
 pedido_cenario_01 <- c(1, 1, 2)
 n_maquinas_cafe_cenario_01 <- 4
 
-pedido_02 <- (1, 1, 2)
+pedido_02 <- c(1, 1, 2)
 n_maquinas_cafe_cenario_02 <- 2
 
 ### Corpo da Função
