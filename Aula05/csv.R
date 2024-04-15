@@ -62,4 +62,8 @@ print(
 )
 
 
-carros_eletricos_arrow2 %>% group_by(County) %>% summarise(total = n()) %>% collect() %>% print()
+carros_eletricos_arrow2 %>%
+  group_by(County) %>%
+  summarise(total = n()) %>%
+  collect() %>%
+  print()
