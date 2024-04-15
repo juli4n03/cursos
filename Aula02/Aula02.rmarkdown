@@ -30,7 +30,7 @@ qtd_real + qtd_real_especial
 qtd_real + qtd_real_especial2
 qtd_real + qtd_real_especial3
 
-0/0
+0 / 0
 Inf + (-Inf)
 Inf^2
 
@@ -88,7 +88,7 @@ valor_complexo2 <- 3 - 4i
 
 valor_complexo + valor_complexo2
 valor_complexo / valor_complexo2
-valor_complexo ^ 2
+valor_complexo^2
 ```
 
 
@@ -108,8 +108,6 @@ print(valor_texto)
 
 Encoding(valor_texto) <- "UTF-8"
 print(valor_texto)
-
-
 ```
 
 ```{r}
@@ -123,11 +121,11 @@ valor_data <- "2023-01-23"
 
 
     ```{r}
-    install.packages("lubridate", repos = "http://cran.us.r-project.org")
+install.packages("lubridate", repos = "http://cran.us.r-project.org")
 
-    library(lubridate)
+library(lubridate)
 
-    ymd(valor_data) == ymd(20230123)
+ymd(valor_data) == ymd(20230123)
     ```
 
 
@@ -154,7 +152,7 @@ z <- c(1, 0, 0)
 
 # Aritimética Vetorial
 y + z
-3*x + 2*y - 4*z
+3 * x + 2 * y - 4 * z
 
 # Slicing
 
@@ -177,9 +175,9 @@ Listas são coleções heterogêneas 'nomeadas'. Listas são coleções ordenada
 
 
 ```{r}
-lista_exemplo <- list(pessoa1="Fred", pessoa2="Velma", criancas=3, idades=c(4,7,9))
+lista_exemplo <- list(pessoa1 = "Fred", pessoa2 = "Velma", criancas = 3, idades = c(4, 7, 9))
 
-lista_exemplo2 <- list(pessoa3="Fred2", pessoa4="Mary4", criancas=5, idades=c(4,7,9,11,12))
+lista_exemplo2 <- list(pessoa3 = "Fred2", pessoa4 = "Mary4", criancas = 5, idades = c(4, 7, 9, 11, 12))
 
 lista_exemplo$pessoa1
 lista_exemplo$idades[2]
@@ -200,11 +198,11 @@ Um vetor não nulo pode ser tratado como um array se possuir o atributo dimensã
 
 
 ```{r}
-array_exemplo <- array(1:20, dim=c(4,5))
+array_exemplo <- array(1:20, dim = c(4, 5))
 print(array_exemplo)
 
 vetor_para_array <- c(1:20)
-dim(vetor_para_array) <- c(4,5)
+dim(vetor_para_array) <- c(4, 5)
 print(vetor_para_array)
 
 vetor_para_array[1:2, 1:3]
@@ -213,9 +211,8 @@ vetor_para_array + array_exemplo
 t(vetor_para_array)
 
 
-array_exemplo2 <- array(1:20, dim=c(5,5))
+array_exemplo2 <- array(1:20, dim = c(5, 5))
 eigen(array_exemplo2)$values
-
 ```
 
 
@@ -246,7 +243,7 @@ for (i in 1:10) {
 }
 
 i <- 0
-while(i < 10) {
+while (i < 10) {
   print(i)
   i <- i + 1
   if (i %% 7 == 0) {
@@ -257,8 +254,8 @@ while(i < 10) {
 ```
 
 ```{r}
-while(TRUE) {
-  
+while (TRUE) {
+
 }
 ```
 
@@ -279,7 +276,5 @@ c <- 1:100
 print(FiltraVetor(c, 20))
 print(FiltraVetor(c, 10))
 print(FiltraVetor(c))
-
-
 ```
 

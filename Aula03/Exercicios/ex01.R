@@ -1,4 +1,4 @@
-### Crie uma função que dada uma lista de numeros retorna a mediana 
+### Crie uma função que dada uma lista de numeros retorna a mediana
 
 ### Inputs
 lista_numeros_01 <- c(0, 0, 1, 2, 3)

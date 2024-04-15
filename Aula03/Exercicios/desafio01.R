@@ -1,4 +1,4 @@
-### Dada dois números inteiros m e n, escreva uma função que retorne 
+### Dada dois números inteiros m e n, escreva uma função que retorne
 ### todos os números primos p tais que m <= p <= n
 
 ### Restrições
