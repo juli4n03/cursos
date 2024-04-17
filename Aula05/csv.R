@@ -4,6 +4,7 @@ require("dtplyr")
 require("arrow")
 require("here")
 require("stringr")
+library("pryr")
 
 caminho_arquivos_csv <- here("Aula05", "dados/carros_eletricos.csv")
 caminho_arquivos_tsv <- here("Aula05", "dados/carros_eletricos2.csv")
@@ -39,13 +40,15 @@ print(
   )
 )
 
+
 print(
   str_glue(
     "Tamanho objeto dtplyr: ",
-    round(as.numeric(object.size(carros_eletricos)) / (1024 * 1024), 4),
+    round(as.numeric(object.size(carros_eletricos_lazy)) / (1024 * 1024), 4),
     " megabytes"
   )
 )
+
 print(
   str_glue(
     "Tamanho objeto arrow.table: ",
@@ -53,6 +56,8 @@ print(
     " megabytes"
   )
 )
+
+
 print(
   str_glue(
     "Tamanho objeto arrow.dataset: ",
@@ -60,6 +65,7 @@ print(
     " megabytes"
   )
 )
+
 
 
 carros_eletricos_arrow2 %>%
