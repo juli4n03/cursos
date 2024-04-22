@@ -8,3 +8,7 @@ divisao_segura <- function(m, n, valor_especial = NULL) {
     return(m / n)
   }
 }
+
+
+var <- c(1, 2, 3, 4)
+var <- NULL

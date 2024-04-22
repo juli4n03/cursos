@@ -8,7 +8,7 @@ library("pryr")
 
 caminho_arquivos_csv <- here("Aula05", "dados/carros_eletricos.csv")
 caminho_arquivos_tsv <- here("Aula05", "dados/carros_eletricos2.csv")
-
+print(caminho_arquivos_csv)
 
 carros_eletricos <- fread(caminho_arquivos_csv)
 print(carros_eletricos)
@@ -73,3 +73,7 @@ carros_eletricos_arrow2 %>%
   summarise(total = n()) %>%
   collect() %>%
   print()
+
+
+class(carros_eletricos_lazy)
+class(carros_eletricos)

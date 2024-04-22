@@ -12,7 +12,6 @@ file = "./exemplo_fwf_01.txt")
 
 exemplo01 <- "./exemplo_fwf_01.txt"
 
-# exemplo01 <- here("Aula05", "dados/exemplo_fwf.txt")
 print(exemplo01)
 
 exemplo_01_fwf <- read_fwf(
