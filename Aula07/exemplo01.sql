@@ -4,7 +4,7 @@ CREATE TABLE cities (
     lon  DECIMAL
 );
 
-/* DROP TABLE ⟨tablename⟩; */
+-- DROP TABLE ⟨cities⟩;
 
 CREATE TABLE weather (
     city    VARCHAR,
@@ -14,8 +14,7 @@ CREATE TABLE weather (
     date    DATE
 );
 
-INSERT INTO weather
-VALUES ('San Francisco', 46, 50, 0.25, '1994-11-27');
+
 
 INSERT INTO cities
 VALUES ('San Francisco', -194.0, 53.0);
@@ -26,12 +25,17 @@ VALUES ('São Paulo', -194.0, 53.0);
 INSERT INTO weather (date, city, temp_hi, temp_lo)
 VALUES ('1994-11-29', 'San Francisco', 60, 33);
 
+INSERT INTO weather (city, temp_hi, date)
+VALUES ('San Francisco', 46, '1994-11-27');
+
+-- Seleção de dados 
 SELECT *
 FROM weather;
 
-SELECT city, temp_lo, temp_hi, prcp, date
+SELECT city, prcp, date
 FROM weather;
 
+-- Construção de novas colunas
 SELECT city, (temp_hi + temp_lo) / 2 AS temp_avg, date
 FROM weather;
 
@@ -50,9 +54,9 @@ ORDER BY city, temp_lo;
 SELECT DISTINCT city
 FROM weather;
 
-SELECT DISTINCT city
+SELECT *
 FROM weather
-ORDER BY city;
+ORDER BY temp_lo  asc;
 
 SELECT *
 FROM weather, cities
@@ -65,6 +69,11 @@ WHERE city = name;
 SELECT weather.city, weather.temp_lo, weather.temp_hi,
        weather.prcp, weather.date, cities.lon, cities.lat
 FROM weather, cities
+WHERE cities.name = weather.city;
+
+SELECT weather.city, weather.temp_lo, weather.temp_hi,
+       weather.prcp, weather.date, cities.lon, cities.lat
+FROM weather A, cities B
 WHERE cities.name = weather.city;
 
 SELECT *
@@ -82,16 +91,19 @@ SELECT city
 FROM weather
 WHERE temp_lo = max(temp_lo);     -- WRONG
 
-SELECT city
+SELECT *
 FROM weather
 WHERE temp_lo = (SELECT max(temp_lo) FROM weather);
 
 
 WITH max_cte as (
-	SELECT max(temp_lo) as max_temp FROM weather
+	SELECT 
+		city,
+		max(temp_lo) as max_temp 
+	FROM weather
 )
 SELECT
-	city
+	*
 FROM weather A 
 INNER JOIN max_cte B 
 	ON A.temp_lo = B.max_temp;

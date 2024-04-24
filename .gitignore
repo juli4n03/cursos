@@ -50,3 +50,5 @@ rsconnect/
 .devcontainer
 .github
 dados
+
+venv

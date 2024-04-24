@@ -3,7 +3,7 @@ SET memory_limit = '4GB';
 SET threads TO 4;
 
 CREATE TABLE "base_credito_bureau_A" AS
-    FROM 'D:\DadosCurso\base_modelo_credito_kaggle\csv_files\test\test_credit_bureau_a_1_*.csv';
+    FROM 'D:\DadosCurso\base_modelo_credito_kaggle\csv_files\train\train_credit_bureau_a_1_*.csv';
    
 describe base_credito_bureau_A;
 
