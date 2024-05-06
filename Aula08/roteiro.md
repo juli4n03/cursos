@@ -24,3 +24,4 @@
 - Qual a categoria que possui mais produtos ?
 - Qual a categoria que possui o maior score de avaliação ?
 - Quantos são os pedidos com itens de mais que um vendedor ?
+

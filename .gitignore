@@ -49,6 +49,10 @@ po/*~
 rsconnect/
 .devcontainer
 .github
+
+
 dados
+data
 
 venv
+renv
