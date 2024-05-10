@@ -1,8 +1,12 @@
-library("here")
-library("dplyr")
-library("arrow")
+library(here)
+library(dplyr)
+library(arrow)
 library(tidyr)
 library(tibble)
+library(lobstr)
+library(pryr)
+library(glue)
+library(future)
 
 caminho_base_arquivos <- "C:/Users/RenatoFileto/curso_bigdata/Projeto02/data/train/"
 caminho_applprev_nv1 <- c(
@@ -16,28 +20,28 @@ caminho_applprev_nv1_1 <- here(caminho_base_arquivos, "train_applprev_1_1.parque
 applprev_nv1_0 <- open_dataset(caminho_applprev_nv1_0, format = "parquet", unify_schemas = FALSE)
 applprev_nv1_1 <- open_dataset(caminho_applprev_nv1_1, format = "parquet", unify_schemas = FALSE)
 
-print(applprev_nv1_0$schema == applprev_nv1_1$schema)
-print(applprev_nv1_0$schema)
-print(applprev_nv1_1$schema)
+# print(applprev_nv1_0$schema == applprev_nv1_1$schema)
+# print(applprev_nv1_0$schema)
+# print(applprev_nv1_1$schema)
 
-applprev <- open_dataset(caminho_applprev_nv1, format = "parquet", unify_schemas = FALSE)
-# applprev$schema %>% print()
+# ambiente_dados <- new.env(parent = emptyenv())
+# print(ambiente_dados)
 
 # total <- applprev %>%
-#     summarize(n = n()) %>%
+#     summarize(n = n())
 
 # participacao_total <- applprev %>%
 #     group_by(status_219L) %>%
-#     summarize(participacao_status = round(100 * (n() / total$n), 2)) %>%
+#     summarize(participacao_status = round(100 * (n() / total$n), 2))
 
 # total_aprovados <- applprev %>% filter(!is.na(approvaldate_319D)) %>%
-#     summarize(n = n()) %>%
+#     summarize(n = n()) 
 
 # participacao_aprovados <- applprev %>% filter(!is.na(approvaldate_319D)) %>%
 #     group_by(status_219L) %>%
 #     summarize(
 #         participacao_status = round(100 * (n() / total_aprovados$n), 2)
-#         ) %>%
+#         )
 
 # View(participacao_total)
 # View(participacao_aprovados)
@@ -66,7 +70,6 @@ decisao <- open_dataset(
 )
 
 
-
 status_decisao <- applprev %>%
   filter(!is.na(approvaldate_319D)) %>%
   mutate(trat_data_decisao = ymd(approvaldate_319D)) %>%
@@ -80,19 +83,9 @@ status_decisao <- applprev %>%
   summarise(
     n = n()
   ) %>%
-  collect() %>%
-  pivot_wider(
-    names_from = target,
-    names_sep = "_",
-    values_from = n,
-    values_fn = sum
-) %>%
-  rename("bons" = "0") %>%
-  rename("maus" = "1") %>%
-  arrange(., calc_safra) %>%
-  mutate(taxa_maus = 100 * round(maus / (maus + bons), 6)) %>%
-  mutate(taxa_bons = 100 * round(bons / (maus + bons), 6)) %>%
-  as_tibble
+  collect() 
+
 
 
 View(status_decisao)
+

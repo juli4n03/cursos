@@ -17,10 +17,11 @@ base_decisao %>% head() %>% collect() %>% View()
 
 print(base_decisao$schema)
 
+#   mutate(trat_data_decisao = ydm(date_decision)) %>%
 
 dist_safra <- base_decisao %>%
   mutate(trat_data_decisao = ymd(date_decision)) %>%
-  mutate(calc_safra = year(trat_data_decisao) * 100 + month(trat_data_decisao)) %>%
+  mutate(calc_safra = year(trat_data_decisao)*100 + month(trat_data_decisao)) %>%
   group_by(calc_safra) %>%
   summarise(
     n = n(),
@@ -31,7 +32,7 @@ dist_safra <- base_decisao %>%
 
 View(dist_safra)
 
-barplot(dist_safra$n, names.arg = dist_safra$calc_safra, main = "Volumetria por Safra", xlab = "Safra", ylab = "Decisões")
+barplot(dist_safra$n, names.arg = dist_safra$calc_safra, main="Volumetria por Safra", xlab = "Safra", ylab = "Decisões")
 
 
 
