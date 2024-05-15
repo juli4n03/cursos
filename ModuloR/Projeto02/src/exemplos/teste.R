@@ -4,6 +4,8 @@ rm(list = ls(all.names = TRUE))
 library(arrow)
 library(here)
 library(glue)
+library(dplyr)
+library(lubridate)
 
 # Define o diretório onde os arquivos estão localizados
 # dir_applprev   = here("C:/Users/RenatoFileto/curso_bigdata/Projeto02/data/train")
@@ -37,46 +39,63 @@ train_other_1 = open_dataset(dir_other, format = "parquet")
 # train_tax_registry_b_1 = open_dataset(paste0(dir_train,"/train_tax_registry_b_1.parquet"), format = "parquet")
 # train_tax_registry_c_1 = open_dataset(paste0(dir_train,"/train_tax_registry_c_1.parquet"), format = "parquet")
 
-joined_data <- train_base %>% 
-  left_join(train_static, by = "case_id") %>%
-    left_join(train_other_1, by = "case_id")  
+  # left_join(train_static, by = join_by("case_id"))
+#     left_join(train_other_1, by = "case_id")  
   # left_join(train_static_cb_0, by = "case_id")
 
 
 resultado <- tryCatch({
-  res <- joined_data %>% 
-    select(date_decision
-          ,datefirstoffer_1144D
-         ,datelastinstal40dpd_247D
-         ,datelastunpaid_3546854D
-         ,dtlastpmtallstes_4499206D
-         ,firstclxcampaign_1125D 
-         ,firstdatedue_489D
-         ,lastactivateddate_801D
-         ,lastapplicationdate_877D
-         ,lastapprdate_640D
-         ,lastdelinqdate_224D
-         ,lastrejectdate_50D
-         ,lastrepayingdate_696D
-         ,maxdpdinstldate_3546855D
-         ,payvacationpostpone_4187118D
-         ,validfrom_1069D
-  ) %>%
+  res <- train_base %>% 
+  #   select(date_decision
+  #         ,datefirstoffer_1144D
+  #        ,datelastinstal40dpd_247D
+  #        ,datelastunpaid_3546854D
+  #        ,dtlastpmtallstes_4499206D
+  #        ,firstclxcampaign_1125D 
+  #        ,firstdatedue_489D
+  #        ,lastactivateddate_801D
+  #        ,lastapplicationdate_877D
+  #        ,lastapprdate_640D
+  #        ,lastdelinqdate_224D
+  #        ,lastrejectdate_50D
+  #        ,lastrepayingdate_696D
+  #        ,maxdpdinstldate_3546855D
+  #        ,payvacationpostpone_4187118D
+  #        ,validfrom_1069D
+  # ) %>%
   mutate(
     flag_datefirstoffer_1144D = if_else(
-      is.na(datefirstoffer_1144D), 0,
+      is.na(date_decision), 0,
       1
     ),
-    dif_datefirstoffer_1144D = if_else(
-      flag_datefirstoffer_1144D == 0, 0,
-      as.numeric(as.integer(date_decision)-as.integer(datefirstoffer_1144D))
+    trat_date_decision = if_else(
+      !is.Date(date_decision) | is.na(date_decision),
+      ymd(date_decision),
+      today()
+    ),
+    # trat_lastrepayingdate_696D = if_else(
+    #   !is.Date(lastrepayingdate_696D) | is.na(lastrepayingdate_696D),
+    #   as.Date(""),
+    #   ymd(lastrepayingdate_696D)
+    # ),
+    # dif_datefirstoffer_1144D = if_else(
+    #   flag_datefirstoffer_1144D == 0, 0L,
+    #   as.integer(as.character(trat_date_decision - trat_lastrepayingdate_696D))
+    # )
+    across(
+      where(is.character),
+      ~ str_trim(.x) 
+    ),
+    across(
+      where(is.Date),
+      ~ if_else(is.na(.x), today(), .x)
     )
   )
-  res %>% head %>% compute %>% View()
+  res %>% head %>% compute %>% View
 
 }, error = function(err) {
   # error handler picks up where error was generated
-  print(glue("MY_ERROR: {err} "))
+  print(glue("{err}"))
 })
 
 
