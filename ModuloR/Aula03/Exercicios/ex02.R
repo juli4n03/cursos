@@ -13,7 +13,7 @@
 # 0 <= tamanho_dos_pedidos <= 40
 # 0 <= maquinas_de_cafe <= numero_pedidos
 
-# Cada máquina de café processa um café por vez  e leva 1 minuto. Após retirar
+# Cada máquina de café processa um café por vez  e leva 1 minuto. Após retirar 
 # um café ela precisa de dois minutos para a limpeza
 
 ### Outputs
