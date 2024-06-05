@@ -3,7 +3,7 @@ from pathlib import Path
 import polars as pl
 import polars.selectors as cs
 
-caminho_base = Path("C:/Users/RenatoFileto/curso_bigdata/ModuloPython/Aula04/data/raw")
+caminho_base = Path("C:/Users/RenatoFileto/curso_bigdata/ModuloPython/data/raw")
 caminho_base_csv = caminho_base.joinpath("base_semana02.csv")
 
 df = pl.scan_csv(caminho_base_csv, has_header=True, separator=";", low_memory=True, infer_schema_length=0)
@@ -42,5 +42,7 @@ pivotd_df = pivot_df.with_columns(
         (pl.col("Sem Marcação")/(pl.sum_horizontal(~cs.starts_with("foto")))).alias("Taxa SP")
     )
 
-print(pivotd_df)
+# print(pivotd_df)
 
+correlacao = df.collect().corr()
+print(correlacao)
