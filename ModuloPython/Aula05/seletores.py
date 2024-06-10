@@ -4,7 +4,7 @@ import polars as pl
 import polars.selectors as cs
 
 
-caminho_base = Path("C:/Users/RenatoFileto/curso_bigdata/ModuloPython/data/raw")
+caminho_base = Path("D:/01.Estudos/curso_bigdataR/ModuloPython/data/raw")
 caminho_base_csv = caminho_base.joinpath("base_semana02.csv")
 
 df = pl.scan_csv(

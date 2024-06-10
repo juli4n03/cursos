@@ -18,3 +18,6 @@ sigma = 25
 x = sigma*np.random.randn(1000)
 n,bins,patches = plt.hist(x)
 plt.show()
+
+# Exercico calcular a 'mediana matricial'
+# mediana da diagonal
