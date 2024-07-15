@@ -56,7 +56,7 @@ data
 
 venv
 renv
-
+*.zip
 <<<<<<< HEAD
 *.db
 =======
