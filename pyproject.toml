@@ -14,6 +14,7 @@ dependencies = [
     "pandas>=2.3.3",
     "pathlib>=1.0.1",
     "scikit-learn>=1.7.2",
+    "shap>=0.49.1",
     "tqdm>=4.67.3",
     "unidecode>=1.4.0",
 ]
