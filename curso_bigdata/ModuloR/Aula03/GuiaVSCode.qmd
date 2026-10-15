@@ -1,0 +1,36 @@
+# Uso do R no VSCode
+
+## Detalhes do R
+
+É necessário a instalação do pacote 'languageserver' na instalação global do R.
+
+```R
+install.packages("languageserver")
+```
+
+Além disto, os pacotes *radian* e *httpgd* podem melhorar a experiência iterativa, pois provem um melhorias para o console e também para os plots. Uma observação é que o pacote **radian** é Python, portante depende de uma instalação python e deve ser instalado como segue:
+
+```powershell
+pip3 install -U radian
+```
+
+### Referências
+Como instalar o [python](https://www.datacamp.com/blog/how-to-install-python) 
+
+Repositório do pacote [radian](https://github.com/randy3k/radian)
+
+Repositório do pacote [httpgd](https://github.com/nx10/httpgd)
+
+
+## Instalação das extensões
+
+As extensões mais importantes para se utilizar o R no VSCode são:
+*R* e *R Debugger*
+
+O uso das extensões *Rainbow Brackets* e *Indent-Rainbow* podem ser de gande valia, dado a sintaxa da linguagem.
+
+## Utilização 
+
+Para acessar os recursos instalados pelas extensões no VS Code utilizamos a combinação de teclas Ctrl + Shift + P.
+
+Para executar um arquivo R utilizamos Ctrl + Shift + P e depois selecionamos R Debugger

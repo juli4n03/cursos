@@ -1,0 +1,7 @@
+1. Crie um repositório no github
+2. Clone ele localmente (use o git clone <url_repo>)
+3. Crie um arquivo com uma função que printa a mensagem "Olá, Mundo"
+4. Chame a função ao final do arquivo
+5. Adicione seus arquivos a estrutura do repositório (use o git add .)
+6. Faça o seu primeiro commit com a mensagem "Olá, Curso R"
+7. Atualize o repositório remoto (use o git push) 
