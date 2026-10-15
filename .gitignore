@@ -13,7 +13,7 @@ venv/
 env/
 
 # Artefatos de modelo gerados localmente (recriados por salvar_catalogo.py / notebooks)
-# Mantemos os artefatos finais dentro de 01_Scripts/Projeto 2/modelos versionados,
+# Mantemos os artefatos finais versionados em modelos/,
 # então NÃO ignoramos essa pasta específica — só evitamos cópias soltas em outros lugares.
 
 # SO

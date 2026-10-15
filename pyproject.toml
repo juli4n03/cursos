@@ -1,7 +1,7 @@
 [project]
 name = "perspectiva-dados-projeto2"
 version = "0.1.0"
-description = "Add your description here"
+description = "KaBuM — Preço Justo: preço justo de componentes de hardware com conformal prediction, SHAP e app Streamlit"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
