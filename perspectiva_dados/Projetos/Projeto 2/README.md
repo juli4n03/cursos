@@ -43,7 +43,7 @@ seção 6 (Jornada do projeto) documenta essa evolução em detalhe.
 ## Estrutura do repositório
 
 ```
-perspectiva_dados_projeto2/
+Projeto 2/   (dentro de github.com/juli4n03/cursos → perspectiva_dados/Projetos/)
 ├── README.md
 ├── baixar_dados.py (baixa 00_Dados/ do Drive automaticamente)
 ├── requirements.txt (dependências Python)
@@ -142,8 +142,8 @@ Abra o PowerShell na pasta onde quer o projeto:
 
 ```powershell
 # clone
-git clone <URL_DO_REPO> perspectiva_dados_projeto2
-cd perspectiva_dados_projeto2
+git clone https://github.com/juli4n03/cursos.git
+cd "cursos/perspectiva_dados/Projetos/Projeto 2"
 
 # inicializar projeto uv (cria pyproject.toml e .venv do projeto)
 uv init
@@ -300,7 +300,7 @@ o TabICL com contexto de 3000 linhas. Dura ~5 minutos numa RTX 4060.
 
 ```powershell
 # do zero
-git clone <URL> && cd perspectiva_dados_projeto2
+git clone https://github.com/juli4n03/cursos.git; cd "cursos/perspectiva_dados/Projetos/Projeto 2"
 python -m venv .venv && .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python baixar_dados.py
