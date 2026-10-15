@@ -6,8 +6,8 @@ require("here")
 require("stringr")
 library("pryr")
 
-caminho_arquivos_csv <- here("Aula05", "dados/carros_eletricos.csv")
-caminho_arquivos_tsv <- here("Aula05", "dados/carros_eletricos2.csv")
+caminho_arquivos_csv <- here("ModuloR", "Aula05", "dados/carros_eletricos.csv")
+caminho_arquivos_tsv <- here("ModuloR", "Aula05", "dados/carros_eletricos2.csv")
 print(caminho_arquivos_csv)
 
 carros_eletricos <- fread(caminho_arquivos_csv)

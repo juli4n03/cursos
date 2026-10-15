@@ -57,8 +57,14 @@ data
 venv
 renv
 *.zip
-<<<<<<< HEAD
 *.db
-=======
 apresentacao
->>>>>>> f618c00 (Arquivos aula02)
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+pyvenv.cfg
+
+# Logs
+*.log

@@ -10,7 +10,7 @@ if (!require("dplyr")) {
   install.packages("dplyr")
 }
 
-caminho_arquivos <- here("Aula05", "dados/carros_eletricos.json")
+caminho_arquivos <- here("ModuloR", "Aula05", "dados/carros_eletricos.json")
 
 carros_eletricos <- fromJSON(caminho_arquivos, flatten = TRUE)
 print(carros_eletricos)

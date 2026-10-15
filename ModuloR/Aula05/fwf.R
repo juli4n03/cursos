@@ -8,9 +8,9 @@ Pearson Karl      1857 1936
 Cox     Gertrude  1900 1978
 Yates   Frank     1902 1994
 Smith   Kirstine  1878 1939",
-file = "./exemplo_fwf_01.txt")
+file = here("ModuloR", "Aula05", "exemplo_fwf_01.txt"))
 
-exemplo01 <- "./exemplo_fwf_01.txt"
+exemplo01 <- here("ModuloR", "Aula05", "exemplo_fwf_01.txt")
 
 print(exemplo01)
 

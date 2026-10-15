@@ -9,7 +9,7 @@ if (!require("here")) {
 }
 library("tibble")
 
-caminho_arquivos <- here("Aula05", "dados/carros_eletricos.xml")
+caminho_arquivos <- here("ModuloR", "Aula05", "dados/carros_eletricos.xml")
 print(caminho_arquivos)
 
 dados_carros_eletricos <- read_xml(caminho_arquivos)
