@@ -54,6 +54,8 @@ perspectiva_dados_projeto2/
 │   │   ├── ...
 │   │   └── kabum_todas_pecas_2026-06-26.csv
 │   ├── 2026-07-06/
+│   ├── 2026-08-11/
+│   ├── 2026-09-07/
 │   └── ...
 ├── 01_coleta/
 │   └── scraper_kabum_pecas.ipynb          ← percorre o KaBuM e grava 00_Dados/
@@ -177,6 +179,11 @@ O script vai criar `00_Dados/` e baixar 6 pastas de coleta (2026-06-26 a
 2026-07-06), totalizando ~27.000 linhas. Dura ~3-5 minutos dependendo da
 conexão.
 
+As coletas de 2026-08-11 e 2026-09-07 foram geradas localmente rodando
+`01_coleta/scraper_kabum_pecas.ipynb` e podem ainda não estar na pasta do
+Drive — se quiser reproduzir os números atuais do catálogo e dos modelos,
+rode o scraper (ou copie essas duas pastas manualmente para `00_Dados/`).
+
 **Alternativa manual**: se preferir, acesse
 [esta pasta no Drive](https://drive.google.com/drive/folders/1ZSOr9PP7XvwfqOHyXkj7JwfS_0cX-uJU?usp=sharing),
 baixe tudo e extraia para `00_Dados/` na raiz do projeto.
@@ -198,10 +205,10 @@ Output esperado (final):
 
 ```
 ✓ Catálogo salvo em: ...\modelos\catalogo.parquet
-  27.208 linhas
-  6 coletas: ['2026-06-26', ...]
+  36.424 linhas
+  8 coletas: ['2026-06-26', ..., '2026-09-07']
   6 categorias:
-    ram        : 7.066 produtos
+    ram        : 9.312 produtos
     ...
 ```
 
@@ -237,12 +244,12 @@ Dura ~3 minutos numa máquina moderna sem GPU.
 
 | categoria  | n | MAE (R$) | R² | cobertura | largura média |
 |------------|--:|--------:|---:|----------:|--------------:|
-| ram        | 1.274 | 269 | 0,87 | 86% | 956 |
-| cpu        | 559 | 529 | 0,62 | 96% | 3.384 |
-| gpu        | 518 | 1.722 | 0,59 | 88% | 5.350 |
-| ssd        | 879 | 683 | 0,37 | 93% | 2.282 |
-| fonte      | 627 | 143 | 0,69 | 92% | 803 |
-| placa_mae  | 935 | 599 | 0,38 | 89% | 2.223 |
+| ram        | 1.507 | 478 | 0,71 | 86% | 1.861 |
+| cpu        | 906 | 615 | 0,60 | 89% | 2.750 |
+| gpu        | 709 | 1.054 | 0,80 | 92% | 4.100 |
+| ssd        | 1.083 | 883 | 0,30 | 87% | 2.388 |
+| fonte      | 693 | 233 | 0,65 | 95% | 1.154 |
+| placa_mae  | 1.091 | 482 | 0,43 | 91% | 1.922 |
 
 ### 6. Rodar o app Streamlit
 
@@ -334,8 +341,10 @@ Cada execução do scraper gera uma nova pasta em `00_Dados/<data>/`
 contendo um CSV por categoria (`kabum_<cat>_<data>.csv`) e um CSV
 consolidado (`kabum_todas_pecas_<data>.csv`).
 
-Para o v2, o dataset final tem **6 coletas** entre 2026-06-26 e 2026-07-06,
-totalizando ~27 mil linhas antes dos filtros.
+Para o v2, o dataset final tem **8 coletas** entre 2026-06-26 e 2026-09-07,
+totalizando ~36 mil linhas antes dos filtros. As seis primeiras coletas são
+diárias/quase-diárias (26/06 a 06/07); as duas últimas (11/08 e 07/09)
+ampliam a janela temporal em mais dois meses.
 
 ### Estabilidade temporal do dataset
 
@@ -349,10 +358,22 @@ Diagnóstico rodado no notebook v2_03 (célula 7):
 | 2026-07-01 → 2026-07-02  |             3.825 |          0,00% |        0,79% |
 | 2026-07-02 → 2026-07-06  |             3.653 |          0,00% |        1,33% |
 
-**A série é praticamente estacionária no período coletado.** A mediana da
-variação absoluta de preço entre coletas consecutivas é sempre 0%. Esse
-diagnóstico é importante para a interpretação da análise do conformal
-(seção 4).
+Estendendo o diagnóstico para as duas coletas novas (calculado sobre o
+`catalogo.parquet` completo, sem o filtro de genuínos usado no v2_03 —
+por isso a contagem de produtos em ambas é maior):
+
+| Coleta → Coleta          | Produtos em ambas | \|Δ%\| mediano | \|Δ%\| médio |
+|--------------------------|------------------:|---------------:|-------------:|
+| 2026-07-06 → 2026-08-11  |             3.431 |          0,00% |        6,89% |
+| 2026-08-11 → 2026-09-07  |             3.822 |          0,00% |       12,80% |
+
+**A série é praticamente estacionária dentro de uma mesma janela curta.** A
+mediana da variação absoluta de preço entre coletas consecutivas é sempre
+0% — inclusive nos saltos de ~1 mês. O que muda é a **cauda**: o \|Δ%\|
+médio sobe de ~1% (intervalos de 1-4 dias) para 6,9% e 12,8% nos intervalos
+mensais, ou seja, uma minoria de produtos remarca forte enquanto a maioria
+fica parada. Esse diagnóstico é importante para a interpretação da análise
+do conformal (seção 4).
 
 ---
 
@@ -500,20 +521,34 @@ Antes do split, o notebook aplica:
 
 ### Métricas finais (v2_02, sem log-transform, 6 categorias)
 
+Treino sobre as 8 coletas (26/06 a 07/09):
+
 | categoria  | n produtos |    MAE |   R² | cobertura | largura média |
 |------------|-----------:|-------:|-----:|----------:|--------------:|
-| ram        |      1.274 |    269 | 0,87 |       86% |           956 |
-| cpu        |        559 |    529 | 0,62 |       96% |         3.384 |
-| gpu        |        518 |  1.722 | 0,59 |       88% |         5.350 |
-| ssd        |        879 |    683 | 0,37 |       93% |         2.282 |
-| fonte      |        627 |    143 | 0,69 |       92% |           803 |
-| placa_mae  |        935 |    599 | 0,38 |       89% |         2.223 |
+| ram        |      1.507 |    478 | 0,71 |       86% |         1.861 |
+| cpu        |        906 |    615 | 0,60 |       89% |         2.750 |
+| gpu        |        709 |  1.054 | 0,80 |       92% |         4.100 |
+| ssd        |      1.083 |    883 | 0,30 |       87% |         2.388 |
+| fonte      |        693 |    233 | 0,65 |       95% |         1.154 |
+| placa_mae  |      1.091 |    482 | 0,43 |       91% |         1.922 |
 
 Cobertura empírica próxima do alvo de 90% em todas as categorias —
-conformal calibrado. R² varia bastante entre categorias: RAM tem
-distribuição bem-comportada e features de alto poder explicativo (`ram_gb`,
-`ram_mhz`, `ram_geracao` explicam quase tudo). Placa-mãe e SSD são as
-mais difíceis: nomes têm muito ruído e specs faltam frequentemente.
+conformal calibrado. R² varia bastante entre categorias: GPU é hoje a
+melhor (0,80), com `gpu_modelo` e `gpu_vram_gb` explicando quase tudo.
+Placa-mãe e SSD seguem sendo as mais difíceis: nomes têm muito ruído e
+specs faltam frequentemente.
+
+**Comparação com a rodada anterior (6 coletas, 26/06 a 06/07)**: RAM caiu
+de R² 0,87 para 0,71 e o MAE quase dobrou (269 → 478); GPU foi na direção
+oposta (0,59 → 0,80, MAE 1.722 → 1.054). As duas coletas novas cobrem
+dois meses adicionais, e no intervalo 11/08 → 07/09 houve remarcação
+relevante em várias categorias (variação média por produto: CPU +17,9%,
+fonte +13,3%, RAM +11,8%, contra +1,8% em SSD). Como o v2_02 usa
+`data_coleta` apenas para carregar e deduplicar — nunca como feature —, o
+mesmo conjunto de specs passa a aparecer com preços bem diferentes
+conforme a data, o que entra no modelo como ruído. Item de trabalho
+futuro: incorporar a data como feature ou treinar só na janela mais
+recente.
 
 ---
 
@@ -537,6 +572,12 @@ Em vez de seis RFs, treinamos:
   de 3.000 linhas em GPU (RTX 4060).
 
 ### Comparação empírica (R² por categoria)
+
+> Os números abaixo são da rodada do v2_03 sobre as **6 primeiras coletas**
+> (26/06 a 06/07) e não foram recalculados após a inclusão de 11/08 e
+> 07/09 — a coluna "6 especialistas" corresponde à tabela antiga da seção 3,
+> não à atual. A comparação relativa entre as três abordagens continua
+> válida; os valores absolutos, não.
 
 | categoria  | 6 especialistas | RF pooled  | TabICL  |
 |------------|----------------:|-----------:|--------:|
